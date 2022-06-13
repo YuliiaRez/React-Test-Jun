@@ -1,6 +1,4 @@
-It is expected to fetch data from the GraphQL endpoint and to provide an interface to view and interact with this data. You can find the endpoint here, along with instructions on how to launch it.
 
-The solution should get implemented as per design, which is available at [this link].
 
 
 # Getting Started with Create React App
