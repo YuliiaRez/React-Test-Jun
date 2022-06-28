@@ -92,3 +92,19 @@ export const OutOfStock = styled.div`
   letter-spacing: 0px;
   text-align: left;
 `;
+export const CategoryContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;
+
+export const CategoryName = styled.h2`
+  cursor: pointer;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 42px;
+  line-height: 160%;
+  display: flex;
+  align-items: center;
+  color: #1d1f22;
+  text-transform: uppercase;
+`;

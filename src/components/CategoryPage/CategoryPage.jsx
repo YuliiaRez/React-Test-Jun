@@ -2,7 +2,20 @@ import React, { Component } from "react";
 import ProductCard from "../ProductCard/ProductCard";
 import { client } from "../../client";
 import { gql } from "@apollo/client";
-import { Container } from "./ProductListStyle";
+import { Container, CategoryContainer, CategoryName } from "./ProductListStyle";
+
+import { useLocation, useNavigate, useParams } from "react-router-dom";
+
+function withRouter(Component) {
+  function ComponentWithRouterProp(props) {
+    let location = useLocation();
+    let navigate = useNavigate();
+    let params = useParams();
+    return <Component {...props} router={{ location, navigate, params }} />;
+  }
+
+  return ComponentWithRouterProp;
+}
 
 export class CategoryPage extends Component {
   constructor(props) {
@@ -11,7 +24,7 @@ export class CategoryPage extends Component {
       productsByCategory: [],
     };
   }
-  getProducts = (categoryName = this.props.currentCategoryName) => {
+  getProducts = (categoryName) => {
     client
       .query({
         query: gql`
@@ -56,7 +69,7 @@ export class CategoryPage extends Component {
       });
   };
   componentDidMount() {
-    this.getProducts();
+    this.getProducts(this.props.currentCategoryName);
   }
   componentDidUpdate(prevProps) {
     if (prevProps.currentCategoryName !== this.props.currentCategoryName)
@@ -64,7 +77,6 @@ export class CategoryPage extends Component {
   }
   render() {
     const { productsByCategory } = this.state;
-    const {} = this;
     const {
       currentCurrency,
       currentCategoryName,
@@ -74,22 +86,27 @@ export class CategoryPage extends Component {
       setTotalPriceOfCart,
     } = this.props;
     return (
-      <Container>
-        {productsByCategory.map((item) => (
-          <ProductCard
-            key={item.id}
-            product={item}
-            currentCurrency={currentCurrency}
-            currentCategoryName={currentCategoryName}
-            onAdd={onAdd}
-            setIsProductPageOpened={setIsProductPageOpened}
-            setProductPage={setProductPage}
-            setTotalPriceOfCart={setTotalPriceOfCart}
-          />
-        ))}
-      </Container>
+      <>
+        <CategoryContainer>
+          <CategoryName>{this.props.router.params.category}</CategoryName>
+        </CategoryContainer>
+        <Container>
+          {productsByCategory.map((item) => (
+            <ProductCard
+              key={item.id}
+              product={item}
+              currentCurrency={currentCurrency}
+              // currentCategoryName={currentCategoryName}
+              onAdd={onAdd}
+              setIsProductPageOpened={setIsProductPageOpened}
+              setProductPage={setProductPage}
+              setTotalPriceOfCart={setTotalPriceOfCart}
+            />
+          ))}
+        </Container>
+      </>
     );
   }
 }
 
-export default CategoryPage;
+export default withRouter(CategoryPage);

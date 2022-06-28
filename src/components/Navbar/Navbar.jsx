@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import { client } from "../../client";
 import { gql } from "@apollo/client";
-import { v4 as uuidv4 } from "uuid";
+import { Outlet, Link } from "react-router-dom";
+
 import brandIcon from "../../images/BrandIcon.svg";
 import cart from "../../images/Cart.svg";
 import arrowImg from "../../images/ArrowCurrImg.svg";
@@ -63,11 +64,11 @@ export class Navbar extends Component {
   componentDidMount() {
     this.getCategoryNames();
   }
-  componentDidMount(prevProps, prevState) {
-    if (prevProps !== this.props) {
-      this.getCategoryNames();
-    }
-  }
+  // componentDidUpdate(prevProps, prevState) {
+  //   if (prevProps !== this.props) {
+  //     this.getCategoryNames();
+  //   }
+  // }
   render() {
     const { categoryNames, isCartOpened, isCurrSelectOpened } = this.state;
     const { setIsCurrSelectOpened, setIsCartOpened, closeCartMini } = this;
@@ -92,17 +93,18 @@ export class Navbar extends Component {
         <NavbarDiv>
           <Left>
             {categoryNames.map((name) => (
-              <Category
-                key={name}
-                chosen={name === currentCategoryName}
-                onClick={() => {
-                  closeCartPage();
-                  closeProductPage();
-                  setCurrentCategoryName(name);
-                }}
-              >
-                {name}
-              </Category>
+              <Link to={`${name}`} key={name}>
+                <Category
+                  chosen={name === currentCategoryName}
+                  onClick={() => {
+                    closeCartPage();
+                    closeProductPage();
+                    setCurrentCategoryName(name);
+                  }}
+                >
+                  {name}
+                </Category>
+              </Link>
             ))}
           </Left>
           <Center>
@@ -172,6 +174,7 @@ export class Navbar extends Component {
             )}
           </Right>
         </NavbarDiv>
+        <Outlet />
       </>
     );
   }

@@ -31,7 +31,7 @@ export class ProductCard extends Component {
       setTotalPriceOfCart,
     } = this.props;
 
-    const { inStock, name, id, gallery, prices } = product;
+    const { inStock, brand, name, id, gallery, prices } = product;
 
     const { openProductPage } = this;
 
@@ -60,18 +60,23 @@ export class ProductCard extends Component {
     return (
       <>
         <ProductContainer chosen={inStock}>
-          <Img
-            onClick={() => {
-              openProductPage(product);
-            }}
-            src={gallery[0]}
-          />
+          <Link to={`${id}`}>
+            <Img
+              onClick={() => {
+                openProductPage(product);
+              }}
+              src={gallery[0]}
+            />
+          </Link>
+
           {stock}
           <Name
             onClick={() => {
               openProductPage(product);
             }}
           >
+            {brand}
+            <br />
             {name}
           </Name>
           <Price

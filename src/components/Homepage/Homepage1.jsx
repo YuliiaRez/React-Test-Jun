@@ -1,19 +1,22 @@
 import React, { Component } from "react";
 import _ from "underscore";
 
-import { Container, MainPageContainer } from "./HomePageStyled";
+import {
+  Container,
+  CategoryContainer,
+  CategoryName,
+  MainPageContainer,
+} from "./HomePageStyled";
 import Navbar from "../Navbar/Navbar";
 import CategoryPage from "../CategoryPage/CategoryPage";
 import ProductPage from "../ProductPage/ProductPage";
 import CartPage from "../CartPage/CartPage";
-import { Route, Routes, Outlet } from "react-router-dom";
-import CatByRout from "../CatByRoute/CatByRout";
 
 export class Homepage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      currentCategoryName: "",
+      currentCategoryName: "all",
       currentCurrency: { symbol: "$", label: "USD" },
       orders: [],
       isProductPageOpened: false,
@@ -192,71 +195,36 @@ export class Homepage extends Component {
     } = this;
     return (
       <Container>
-        <Routes>
-          <Route
-            path="/"
-            element={
-              <Navbar
-                currentCategoryName={currentCategoryName}
-                currentCurrency={currentCurrency}
-                setCurrentCurrency={setCurrentCurrency}
-                setCurrentCategoryName={setCurrentCategoryName}
-                orders={orders}
-                setIsCardPageOpened={setIsCardPageOpened}
-                increaseCounter={increaseCounter}
-                decreaseCounter={decreaseCounter}
-                setTotalPriceOfCart={setTotalPriceOfCart}
-                totalPriceOfCart={totalPriceOfCart}
-                closeCartPage={closeCartPage}
-                closeProductPage={closeProductPage}
-                isProductPageOpened={isProductPageOpened}
-                isCartPageOpened={isCartPageOpened}
-              />
-            }
-          >
-            <Route
-              path=":category/"
-              element={
-                <>
-                  <Outlet />
-
-                  {!isProductPageOpened && !isCartPageOpened && (
-                    <MainPageContainer>
-                      <CategoryPage
-                        onAdd={addToOrderFromPL}
-                        currentCategoryName={currentCategoryName}
-                        currentCurrency={currentCurrency}
-                        setIsProductPageOpened={setIsProductPageOpened}
-                        setProductPage={setProductPage}
-                        setTotalPriceOfCart={setTotalPriceOfCart}
-                      />
-                    </MainPageContainer>
-                  )}
-                </>
-              }
-            >
-              <Route
-                path=":productId"
-                element={
-                  <>
-                    <ProductPage
-                      currentCurrency={currentCurrency}
-                      orders={orders}
-                      addToOrderFromPL={addToOrderFromPL}
-                      addToOrderFromPP={addToOrderFromPP}
-                      setTotalPriceOfCart={setTotalPriceOfCart}
-                      isProductPageOpened={isProductPageOpened}
-                      isCartPageOpened={isCartPageOpened}
-                      closeCartPage={closeCartPage}
-                      closeProductPage={closeProductPage}
-                    />
-                  </>
-                }
-              ></Route>
-            </Route>
-          </Route>
-        </Routes>
-
+        <Navbar
+          currentCategoryName={currentCategoryName}
+          currentCurrency={currentCurrency}
+          setCurrentCurrency={setCurrentCurrency}
+          setCurrentCategoryName={setCurrentCategoryName}
+          orders={orders}
+          setIsCardPageOpened={setIsCardPageOpened}
+          increaseCounter={increaseCounter}
+          decreaseCounter={decreaseCounter}
+          setTotalPriceOfCart={setTotalPriceOfCart}
+          totalPriceOfCart={totalPriceOfCart}
+          closeCartPage={closeCartPage}
+          closeProductPage={closeProductPage}
+          isProductPageOpened={isProductPageOpened}
+          isCartPageOpened={isCartPageOpened}
+        />
+        {productPage && isProductPageOpened && (
+          <ProductPage
+            product={productPage}
+            currentCurrency={currentCurrency}
+            orders={orders}
+            addToOrderFromPL={addToOrderFromPL}
+            addToOrderFromPP={addToOrderFromPP}
+            setTotalPriceOfCart={setTotalPriceOfCart}
+            isProductPageOpened={isProductPageOpened}
+            isCartPageOpened={isCartPageOpened}
+            closeCartPage={closeCartPage}
+            closeProductPage={closeProductPage}
+          />
+        )}
         {isCartPageOpened && (
           <CartPage
             orders={orders}
@@ -271,6 +239,24 @@ export class Homepage extends Component {
             isCartPageOpened={isCartPageOpened}
           />
         )}
+        <MainPageContainer>
+          {!isProductPageOpened && !isCartPageOpened && (
+            <>
+              <CategoryContainer>
+                <CategoryName>{currentCategoryName}</CategoryName>
+              </CategoryContainer>
+
+              <CategoryPage
+                onAdd={addToOrderFromPL}
+                currentCategoryName={currentCategoryName}
+                currentCurrency={currentCurrency}
+                setIsProductPageOpened={setIsProductPageOpened}
+                setProductPage={setProductPage}
+                setTotalPriceOfCart={setTotalPriceOfCart}
+              />
+            </>
+          )}
+        </MainPageContainer>
       </Container>
     );
   }
