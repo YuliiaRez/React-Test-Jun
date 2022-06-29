@@ -18,25 +18,12 @@ import OrderMini from "./OrderMini";
 export class CartMini extends Component {
   constructor(props) {
     super(props);
-    this.ref = React.createRef();
   }
-  handleClickOutside = (event) => {
-    if (this.ref.current && !this.ref.current.contains(event.target)) {
-      this.props.onClickOutside && this.props.onClickOutside();
-    }
-  };
   showCountOfItems = () => {
     return this.props.orders
       .map((item) => item.amount)
       .reduce((sum, current) => sum + current);
   };
-  componentDidMount() {
-    document.addEventListener("click", this.handleClickOutside, true);
-  }
-
-  componentWillUnmount() {
-    document.removeEventListener("click", this.handleClickOutside, true);
-  }
   render() {
     const {
       orders,
@@ -49,15 +36,11 @@ export class CartMini extends Component {
       closeCartMini,
       closeProductPage,
       closeCartPage,
-      isCartOpened,
-      setIsCartOpened,
     } = this.props;
-    console.log("ref :>> ", this.ref);
-    if (!isCartOpened) return null;
     return (
       <>
         <Container>
-          <CartContainer ref={this.ref}>
+          <CartContainer>
             <CartHeader>{` My Bag, ${this.showCountOfItems()} items`}</CartHeader>
             <Orders>
               {orders.length > 0 &&

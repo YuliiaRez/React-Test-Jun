@@ -168,7 +168,11 @@ export class Navbar extends Component {
                   closeCartPage={closeCartPage}
                   closeProductPage={closeProductPage}
                   isProductPageOpened={isProductPageOpened}
-                  isCartPageOpened={isProductPageOpened}
+                  isCartPageOpened={isCartPageOpened}
+                  isCartOpened={isCartOpened}
+                  onClickOutside={() => {
+                    closeCartMini();
+                  }}
                 />
               </div>
             )}
