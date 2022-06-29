@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
 
 import {
@@ -52,6 +53,7 @@ export class CartMini extends Component {
       isCartOpened,
       setIsCartOpened,
     } = this.props;
+
     console.log("ref :>> ", this.ref);
     if (!isCartOpened) return null;
     return (
@@ -86,15 +88,17 @@ export class CartMini extends Component {
               </Price>
             </PriceContainer>
             <BtnContainer>
-              <CartMiniBtn
-                onClick={() => {
-                  setIsCardPageOpened();
-                  closeCartMini();
-                  closeProductPage();
-                }}
-              >
-                VIEW BAG
-              </CartMiniBtn>
+              <Link to="cart-page">
+                <CartMiniBtn
+                  onClick={() => {
+                    setIsCardPageOpened();
+                    closeCartMini();
+                    closeProductPage();
+                  }}
+                >
+                  VIEW BAG
+                </CartMiniBtn>
+              </Link>
 
               <CheckoutBtn
                 onClick={() => {

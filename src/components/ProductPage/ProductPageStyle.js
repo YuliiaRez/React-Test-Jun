@@ -84,7 +84,7 @@ export const Attr = styled.div`
   display: flex;
   width: 63px;
   height: 45px;
-  font-size: 16px;
+  font-size: 14px;
   font-style: normal;
   font-weight: 400;
   justify-content: center;
@@ -97,7 +97,7 @@ export const Attr = styled.div`
 `;
 
 export const Brand = styled.p`
-  font-size: 30px;
+  font-size: 26px;
   font-style: normal;
   font-weight: 600;
   line-height: 27px;
@@ -167,7 +167,7 @@ export const ChosenSpec = styled.div`
   width: 63px;
   height: 45px;
   background-color: white;
-  font-size: 16px;
+  font-size: 12px;
   font-style: normal;
   font-weight: 400;
   justify-content: center;
@@ -179,12 +179,12 @@ export const ChosenSpec = styled.div`
   margin-right: 8px;
 `;
 
-export const ProductDescription = styled.textarea`
+export const ProductDescription = styled.div`
   font-family: Roboto Condensed;
   max-width: 100%;
   font-style: normal;
   font-weight: 400;
-  font-size: 16px;
+  font-size: 12px;
   width: 292px;
   height: 103px;
   overflow: auto;

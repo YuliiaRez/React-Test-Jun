@@ -7,17 +7,16 @@ import CategoryPage from "../CategoryPage/CategoryPage";
 import ProductPage from "../ProductPage/ProductPage";
 import CartPage from "../CartPage/CartPage";
 import { Route, Routes, Outlet } from "react-router-dom";
-import CatByRout from "../CatByRoute/CatByRout";
 
 export class Homepage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      currentCategoryName: "",
+      // currentCategoryName: "",
       currentCurrency: { symbol: "$", label: "USD" },
       orders: [],
-      isProductPageOpened: false,
-      isCartPageOpened: false,
+      // isProductPageOpened: false,
+      // isCartPageOpened: false,
       productPage: null,
       totalPriceOfCart: 0,
     };
@@ -128,9 +127,11 @@ export class Homepage extends Component {
     }
     this.setState({ orders: [...orders] });
   };
-  setIsProductPageOpened = () => {
+  setIsProductPageOpened = (data) => {
     const { isProductPageOpened } = this.state;
-    this.setState({ isProductPageOpened: !isProductPageOpened });
+    this.setState({
+      isProductPageOpened: data ? Boolean(data) : !isProductPageOpened,
+    });
   };
   setIsCardPageOpened = () => {
     const { isCartPageOpened } = this.state;
@@ -190,6 +191,7 @@ export class Homepage extends Component {
       closeCartPage,
       closeProductPage,
     } = this;
+
     return (
       <Container>
         <Routes>
@@ -218,8 +220,6 @@ export class Homepage extends Component {
               path=":category/"
               element={
                 <>
-                  <Outlet />
-
                   {!isProductPageOpened && !isCartPageOpened && (
                     <MainPageContainer>
                       <CategoryPage
@@ -234,43 +234,47 @@ export class Homepage extends Component {
                   )}
                 </>
               }
-            >
-              <Route
-                path=":productId"
-                element={
-                  <>
-                    <ProductPage
-                      currentCurrency={currentCurrency}
-                      orders={orders}
-                      addToOrderFromPL={addToOrderFromPL}
-                      addToOrderFromPP={addToOrderFromPP}
-                      setTotalPriceOfCart={setTotalPriceOfCart}
-                      isProductPageOpened={isProductPageOpened}
-                      isCartPageOpened={isCartPageOpened}
-                      closeCartPage={closeCartPage}
-                      closeProductPage={closeProductPage}
-                    />
-                  </>
-                }
-              ></Route>
-            </Route>
+            ></Route>
+            <Route
+              path=":category/:productId"
+              element={
+                <>
+                  <ProductPage
+                    currentCurrency={currentCurrency}
+                    orders={orders}
+                    addToOrderFromPL={addToOrderFromPL}
+                    addToOrderFromPP={addToOrderFromPP}
+                    setTotalPriceOfCart={setTotalPriceOfCart}
+                    isProductPageOpened={isProductPageOpened}
+                    isCartPageOpened={isCartPageOpened}
+                    closeCartPage={closeCartPage}
+                    closeProductPage={closeProductPage}
+                    setIsProductPageOpened={setIsProductPageOpened}
+                  />
+                </>
+              }
+            ></Route>
+            <Route
+              path="cart-page"
+              element={
+                isCartPageOpened && (
+                  <CartPage
+                    orders={orders}
+                    currentCurrency={currentCurrency}
+                    increaseCounter={increaseCounter}
+                    decreaseCounter={decreaseCounter}
+                    totalPriceOfCart={totalPriceOfCart}
+                    setTotalPriceOfCart={setTotalPriceOfCart}
+                    closeCartPage={closeCartPage}
+                    closeProductPage={closeProductPage}
+                    isProductPageOpened={isProductPageOpened}
+                    isCartPageOpened={isCartPageOpened}
+                  />
+                )
+              }
+            ></Route>
           </Route>
         </Routes>
-
-        {isCartPageOpened && (
-          <CartPage
-            orders={orders}
-            currentCurrency={currentCurrency}
-            increaseCounter={increaseCounter}
-            decreaseCounter={decreaseCounter}
-            totalPriceOfCart={totalPriceOfCart}
-            setTotalPriceOfCart={setTotalPriceOfCart}
-            closeCartPage={closeCartPage}
-            closeProductPage={closeProductPage}
-            isProductPageOpened={isProductPageOpened}
-            isCartPageOpened={isCartPageOpened}
-          />
-        )}
       </Container>
     );
   }

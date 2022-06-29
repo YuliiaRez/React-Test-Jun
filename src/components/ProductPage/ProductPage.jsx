@@ -97,17 +97,21 @@ class ProductPage extends Component {
             })),
           ],
         });
+        // this.props.setIsProductPageOpened(this.props.router.params.productId);
       });
   };
+
   componentDidMount() {
     this.getProduct(/*this.props.router.params.productId*/);
+    console.log("this.props :>> ", this.props);
   }
   componentDidUpdate(prevProps, prevState) {
     if (prevProps != this.props && prevState != this.state) {
       this.getProduct(/*this.props.router.params.productId*/);
-      console.log("this.state :>> ", this.state);
+      // console.log("this.state :>> ", this.state);
     }
   }
+
   setCurrentAttributes = (attributes, indexOfItem, indOfAttr) => {
     attributes[indOfAttr] = {
       ...attributes[indOfAttr],
@@ -124,19 +128,19 @@ class ProductPage extends Component {
       currentImage: gallery.indexOf(img),
     });
   };
-  transformDescription = () => {
-    const { product } = this.state;
-    let result = [];
-    const { description } = product;
-    const parser = new DOMParser();
-    const descriptionAsHTML = parser
-      .parseFromString(description, "text/html")
-      .getElementsByTagName("body");
-    for (let child of descriptionAsHTML[0].children) {
-      result.push(child);
-    }
-    return result;
-  };
+  // transformDescription = () => {
+  //   const { product } = this.state;
+  //   let result = [];
+  //   const { description } = product;
+  //   const parser = new DOMParser();
+  //   const descriptionAsHTML = parser
+  //     .parseFromString(description, "text/html")
+  //     .getElementsByTagName("body");
+  //   for (let child of descriptionAsHTML[0].children) {
+  //     result.push(child);
+  //   }
+  //   return result;
+  // };
   setChosenAttr = (index, attrIndex) => {
     return index === attrIndex;
   };
@@ -144,20 +148,31 @@ class ProductPage extends Component {
     const {
       setIsProductPageOpened,
       currentCurrency,
+      isProductPageOpened,
       orders,
       addToOrderFromPL,
       addToOrderFromPP,
       setTotalPriceOfCart,
     } = this.props;
     const { product, currentImage, currentAttributes } = this.state;
-    const { gallery, brand, name, attributes, inStock, prices, id } = product;
+    const {
+      gallery,
+      brand,
+      name,
+      attributes,
+      inStock,
+      prices,
+      id,
+      description,
+    } = product;
 
-    const description = this.transformDescription();
-    // console.log("this,props :>> ", this.props);
-    // console.log("this.state :>> ", this.state);
+    // const description = this.transformDescription();
+    console.log("product :>> ", product);
+    console.log("description :>> ", description);
+    console.log("description :>> ", typeof description);
 
     return (
-      <Container>
+      <Container ref={this.ref}>
         <Gallery>
           <Imgs>
             {Object.values({ ...gallery }).map((img) => (
@@ -232,9 +247,7 @@ class ProductPage extends Component {
             <AddToCartNotAvailable>ITEM IS OUT OF STOCK</AddToCartNotAvailable>
           )}
           <ProductDescription
-            defaultValue={Object.values({ ...description }).map(
-              (el) => ` ${el.textContent}`
-            )}
+            dangerouslySetInnerHTML={{ __html: description }}
           ></ProductDescription>
         </OrderContainer>
       </Container>

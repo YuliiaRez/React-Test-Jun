@@ -13,6 +13,10 @@ export const NavbarDiv = styled.div`
   grid-template-columns: 1fr 1fr 1fr;
 
   grid-template-rows: auto;
+  position: sticky;
+  top: 0px;
+  z-index: 2000;
+  background-color: white;
 `;
 
 export const Left = styled.div`

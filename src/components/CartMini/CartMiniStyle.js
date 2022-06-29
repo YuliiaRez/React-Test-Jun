@@ -46,7 +46,7 @@ export const Attr = styled.div`
   width: 25px;
   height: 25px;
   background-color: white;
-  font-size: 10px;
+  font-size: 8px;
   font-style: normal;
   font-weight: 400;
   justify-content: center;
@@ -90,7 +90,7 @@ export const ProductInfoInCart = styled.div`
   flex-direction: column;
   justify-content: space-between;
   align-items: start;
-  font-size: 14px;
+  font-size: 12px;
 `;
 
 export const CartContent = styled.div`

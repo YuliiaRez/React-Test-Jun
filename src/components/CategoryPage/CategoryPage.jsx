@@ -24,7 +24,7 @@ export class CategoryPage extends Component {
       productsByCategory: [],
     };
   }
-  getProducts = (categoryName) => {
+  getProducts = (categoryName = this.props.router.params.category) => {
     client
       .query({
         query: gql`
@@ -69,11 +69,11 @@ export class CategoryPage extends Component {
       });
   };
   componentDidMount() {
-    this.getProducts(this.props.currentCategoryName);
+    this.getProducts();
   }
   componentDidUpdate(prevProps) {
     if (prevProps.currentCategoryName !== this.props.currentCategoryName)
-      this.getProducts(this.props.currentCategoryName);
+      this.getProducts();
   }
   render() {
     const { productsByCategory } = this.state;
@@ -96,7 +96,7 @@ export class CategoryPage extends Component {
               key={item.id}
               product={item}
               currentCurrency={currentCurrency}
-              // currentCategoryName={currentCategoryName}
+              currentCategoryName={currentCategoryName}
               onAdd={onAdd}
               setIsProductPageOpened={setIsProductPageOpened}
               setProductPage={setProductPage}

@@ -48,13 +48,15 @@ export class ProductCard extends Component {
       );
     } else {
       stock = (
-        <OutOfStock
-          onClick={() => {
-            openProductPage(product);
-          }}
-        >
-          OUT OF STOCK
-        </OutOfStock>
+        <Link to={`${id}`}>
+          <OutOfStock
+            onClick={() => {
+              openProductPage(product);
+            }}
+          >
+            OUT OF STOCK
+          </OutOfStock>
+        </Link>
       );
     }
     return (
@@ -70,26 +72,28 @@ export class ProductCard extends Component {
           </Link>
 
           {stock}
-          <Name
-            onClick={() => {
-              openProductPage(product);
-            }}
-          >
-            {brand}
-            <br />
-            {name}
-          </Name>
-          <Price
-            onClick={() => {
-              openProductPage(product);
-            }}
-          >
-            {currentCurrency.symbol}
-            {prices.map((it) => {
-              if (it.currency.symbol === currentCurrency.symbol)
-                return it.amount;
-            })}
-          </Price>
+          <Link to={`${id}`}>
+            <Name
+              onClick={() => {
+                openProductPage(product);
+              }}
+            >
+              {brand}
+              <br />
+              {name}
+            </Name>
+            <Price
+              onClick={() => {
+                openProductPage(product);
+              }}
+            >
+              {currentCurrency.symbol}
+              {prices.map((it) => {
+                if (it.currency.symbol === currentCurrency.symbol)
+                  return it.amount;
+              })}
+            </Price>
+          </Link>
         </ProductContainer>
       </>
     );

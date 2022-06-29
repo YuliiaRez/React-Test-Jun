@@ -23,6 +23,18 @@ import {
   CartCounterAndImg,
   Counter,
 } from "./NavbarStyle";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
+
+function withRouter(Component) {
+  function ComponentWithRouterProp(props) {
+    let location = useLocation();
+    let navigate = useNavigate();
+    let params = useParams();
+    return <Component {...props} router={{ location, navigate, params }} />;
+  }
+
+  return ComponentWithRouterProp;
+}
 
 export class Navbar extends Component {
   constructor(props) {
@@ -88,6 +100,7 @@ export class Navbar extends Component {
       isProductPageOpened,
       isCartPageOpened,
     } = this.props;
+
     return (
       <>
         <NavbarDiv>
@@ -95,7 +108,7 @@ export class Navbar extends Component {
             {categoryNames.map((name) => (
               <Link to={`${name}`} key={name}>
                 <Category
-                  chosen={name === currentCategoryName}
+                  chosen={name === this.props.router.params.category}
                   onClick={() => {
                     closeCartPage();
                     closeProductPage();
@@ -184,4 +197,4 @@ export class Navbar extends Component {
   }
 }
 
-export default Navbar;
+export default withRouter(Navbar);
