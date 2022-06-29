@@ -18,18 +18,10 @@ export class ProductCard extends Component {
   }
   openProductPage = (product) => {
     this.props.setIsProductPageOpened();
-    this.props.setProductPage(product);
+    // this.props.setProductPage(product);
   };
   render() {
-    const {
-      product,
-      currentCurrency,
-      currentCategoryName,
-      onAdd,
-      setIsProductPageOpened,
-      setProductPage,
-      setTotalPriceOfCart,
-    } = this.props;
+    const { product, currentCurrency, onAdd, setTotalPriceOfCart } = this.props;
 
     const { inStock, brand, name, id, gallery, prices } = product;
 

@@ -9,7 +9,6 @@ import {
   BtnContainer,
   CartMiniBtn,
   CartHeader,
-  CartAttr,
   Price,
   CheckoutBtn,
   PriceContainer,
@@ -33,10 +32,12 @@ export class CartMini extends Component {
   };
   componentDidMount() {
     document.addEventListener("click", this.handleClickOutside, true);
+    document.body.style.overflow = "hidden";
   }
 
   componentWillUnmount() {
     document.removeEventListener("click", this.handleClickOutside, true);
+    document.body.style.overflow = "unset";
   }
   render() {
     const {
@@ -51,10 +52,9 @@ export class CartMini extends Component {
       closeProductPage,
       closeCartPage,
       isCartOpened,
-      setIsCartOpened,
     } = this.props;
 
-    console.log("ref :>> ", this.ref);
+    // console.log("ref :>> ", this.ref);
     if (!isCartOpened) return null;
     return (
       <>

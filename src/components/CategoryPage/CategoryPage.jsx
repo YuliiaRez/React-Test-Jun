@@ -82,7 +82,7 @@ export class CategoryPage extends Component {
       currentCategoryName,
       onAdd,
       setIsProductPageOpened,
-      setProductPage,
+      // setProductPage,
       setTotalPriceOfCart,
     } = this.props;
     return (
@@ -96,10 +96,10 @@ export class CategoryPage extends Component {
               key={item.id}
               product={item}
               currentCurrency={currentCurrency}
-              currentCategoryName={currentCategoryName}
+              // currentCategoryName={currentCategoryName}
               onAdd={onAdd}
               setIsProductPageOpened={setIsProductPageOpened}
-              setProductPage={setProductPage}
+              // setProductPage={setProductPage}
               setTotalPriceOfCart={setTotalPriceOfCart}
             />
           ))}

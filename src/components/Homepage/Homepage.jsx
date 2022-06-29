@@ -17,7 +17,7 @@ export class Homepage extends Component {
       orders: [],
       // isProductPageOpened: false,
       // isCartPageOpened: false,
-      productPage: null,
+      // productPage: null,
       totalPriceOfCart: 0,
     };
   }
@@ -27,19 +27,19 @@ export class Homepage extends Component {
   setCurrentCurrency = (currency) => {
     this.setState({ currentCurrency: { ...currency } });
   };
-  setProductPage = (product) => {
-    const { productPage } = this.state;
-    this.setState({
-      productPage: {
-        ...product,
-        attributes: [
-          ...product.attributes.map(
-            (el) => (el = { ...el, chosenItemIndex: 0 })
-          ),
-        ],
-      },
-    });
-  };
+  // setProductPage = (product) => {
+  //   const { productPage } = this.state;
+  //   this.setState({
+  //     productPage: {
+  //       ...product,
+  //       attributes: [
+  //         ...product.attributes.map(
+  //           (el) => (el = { ...el, chosenItemIndex: 0 })
+  //         ),
+  //       ],
+  //     },
+  //   });
+  // };
   addToOrderFromPP = (product, attributesSet) => {
     const { orders } = this.state;
     const newProductInCart = { ...product, attributes: [...attributesSet] };
@@ -185,7 +185,7 @@ export class Homepage extends Component {
       increaseCounter,
       decreaseCounter,
       setIsProductPageOpened,
-      setProductPage,
+      // setProductPage,
       setIsCardPageOpened,
       setTotalPriceOfCart,
       closeCartPage,
@@ -199,7 +199,6 @@ export class Homepage extends Component {
             path="/"
             element={
               <Navbar
-                currentCategoryName={currentCategoryName}
                 currentCurrency={currentCurrency}
                 setCurrentCurrency={setCurrentCurrency}
                 setCurrentCategoryName={setCurrentCategoryName}
@@ -220,18 +219,16 @@ export class Homepage extends Component {
               path=":category/"
               element={
                 <>
-                  {!isProductPageOpened && !isCartPageOpened && (
-                    <MainPageContainer>
-                      <CategoryPage
-                        onAdd={addToOrderFromPL}
-                        currentCategoryName={currentCategoryName}
-                        currentCurrency={currentCurrency}
-                        setIsProductPageOpened={setIsProductPageOpened}
-                        setProductPage={setProductPage}
-                        setTotalPriceOfCart={setTotalPriceOfCart}
-                      />
-                    </MainPageContainer>
-                  )}
+                  <MainPageContainer>
+                    <CategoryPage
+                      onAdd={addToOrderFromPL}
+                      currentCategoryName={currentCategoryName}
+                      currentCurrency={currentCurrency}
+                      setIsProductPageOpened={setIsProductPageOpened}
+                      // setProductPage={setProductPage}
+                      setTotalPriceOfCart={setTotalPriceOfCart}
+                    />
+                  </MainPageContainer>
                 </>
               }
             ></Route>
@@ -257,20 +254,18 @@ export class Homepage extends Component {
             <Route
               path="cart-page"
               element={
-                isCartPageOpened && (
-                  <CartPage
-                    orders={orders}
-                    currentCurrency={currentCurrency}
-                    increaseCounter={increaseCounter}
-                    decreaseCounter={decreaseCounter}
-                    totalPriceOfCart={totalPriceOfCart}
-                    setTotalPriceOfCart={setTotalPriceOfCart}
-                    closeCartPage={closeCartPage}
-                    closeProductPage={closeProductPage}
-                    isProductPageOpened={isProductPageOpened}
-                    isCartPageOpened={isCartPageOpened}
-                  />
-                )
+                /*isCartPageOpened &&*/ <CartPage
+                  orders={orders}
+                  currentCurrency={currentCurrency}
+                  increaseCounter={increaseCounter}
+                  decreaseCounter={decreaseCounter}
+                  totalPriceOfCart={totalPriceOfCart}
+                  setTotalPriceOfCart={setTotalPriceOfCart}
+                  closeCartPage={closeCartPage}
+                  closeProductPage={closeProductPage}
+                  isProductPageOpened={isProductPageOpened}
+                  isCartPageOpened={isCartPageOpened}
+                />
               }
             ></Route>
           </Route>

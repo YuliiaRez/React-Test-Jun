@@ -70,8 +70,10 @@ export class Navbar extends Component {
     this.setState({ isCartOpened: !isCartOpened });
   };
   closeCartMini = () => {
-    const {} = this.setState;
     this.setState({ isCartOpened: false });
+  };
+  closeCurrenciesSelect = () => {
+    this.setState({ isCurrSelectOpened: false });
   };
   componentDidMount() {
     this.getCategoryNames();
@@ -83,11 +85,15 @@ export class Navbar extends Component {
   // }
   render() {
     const { categoryNames, isCartOpened, isCurrSelectOpened } = this.state;
-    const { setIsCurrSelectOpened, setIsCartOpened, closeCartMini } = this;
+    const {
+      setIsCurrSelectOpened,
+      setIsCartOpened,
+      closeCartMini,
+      closeCurrenciesSelect,
+    } = this;
     const {
       currentCurrency,
       setCurrentCurrency,
-      currentCategoryName,
       setCurrentCategoryName,
       orders,
       increaseCounter,
@@ -131,7 +137,12 @@ export class Navbar extends Component {
             />
           </Center>
           <Right>
-            <Currency onClick={() => setIsCurrSelectOpened()}>
+            <Currency
+              onClick={() => {
+                setIsCurrSelectOpened();
+                closeCartMini();
+              }}
+            >
               <CurrencySign>{currentCurrency.symbol}</CurrencySign>
               {isCurrSelectOpened ? (
                 <ArrowImgDown src={arrowImg} />
@@ -143,6 +154,9 @@ export class Navbar extends Component {
                   isCurrSelectOpened={isCurrSelectOpened}
                   currentCurrency={currentCurrency}
                   setCurrentCurrency={setCurrentCurrency}
+                  onClickOutside={() => {
+                    closeCurrenciesSelect();
+                  }}
                 />
               )}
             </Currency>

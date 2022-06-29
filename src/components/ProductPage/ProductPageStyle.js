@@ -184,7 +184,7 @@ export const ProductDescription = styled.div`
   max-width: 100%;
   font-style: normal;
   font-weight: 400;
-  font-size: 12px;
+  font-size: 14px;
   width: 292px;
   height: 103px;
   overflow: auto;
