@@ -12,12 +12,8 @@ export class Homepage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      // currentCategoryName: "",
       currentCurrency: { symbol: "$", label: "USD" },
       orders: [],
-      // isProductPageOpened: false,
-      // isCartPageOpened: false,
-      // productPage: null,
       totalPriceOfCart: 0,
     };
   }
@@ -27,19 +23,7 @@ export class Homepage extends Component {
   setCurrentCurrency = (currency) => {
     this.setState({ currentCurrency: { ...currency } });
   };
-  // setProductPage = (product) => {
-  //   const { productPage } = this.state;
-  //   this.setState({
-  //     productPage: {
-  //       ...product,
-  //       attributes: [
-  //         ...product.attributes.map(
-  //           (el) => (el = { ...el, chosenItemIndex: 0 })
-  //         ),
-  //       ],
-  //     },
-  //   });
-  // };
+
   addToOrderFromPP = (product, attributesSet) => {
     const { orders } = this.state;
     const newProductInCart = { ...product, attributes: [...attributesSet] };
@@ -254,7 +238,7 @@ export class Homepage extends Component {
             <Route
               path="cart-page"
               element={
-                /*isCartPageOpened &&*/ <CartPage
+                <CartPage
                   orders={orders}
                   currentCurrency={currentCurrency}
                   increaseCounter={increaseCounter}

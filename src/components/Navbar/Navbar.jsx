@@ -78,11 +78,7 @@ export class Navbar extends Component {
   componentDidMount() {
     this.getCategoryNames();
   }
-  // componentDidUpdate(prevProps, prevState) {
-  //   if (prevProps !== this.props) {
-  //     this.getCategoryNames();
-  //   }
-  // }
+
   render() {
     const { categoryNames, isCartOpened, isCurrSelectOpened } = this.state;
     const {
