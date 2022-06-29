@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { v4 as uuidv4 } from "uuid";
-// import _ from "underscore";
 
 import ImgArrow from "../../images/ImgArrow.svg";
 import {
@@ -54,7 +53,7 @@ export class ItemCartPage extends Component {
     } = this.props;
     const { sliderOnclick } = this;
     const { indexOfPage } = this.state;
-    const { attributes, attrs } = order;
+    const { attributes } = order;
     return (
       <ContentPlacement>
         <Info>

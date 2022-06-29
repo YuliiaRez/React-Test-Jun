@@ -2,22 +2,6 @@ import React, { Component } from "react";
 import { client } from "../../client";
 import { gql } from "@apollo/client";
 
-import arrowImg from "../../images/ArrowCurrImg.svg";
-import {
-  NavbarDiv,
-  Left,
-  Center,
-  Right,
-  Category,
-  Image,
-  CurrencySign,
-  ArrowImgUp,
-  ArrowImgDown,
-  Currency,
-  CurrenciesContainer,
-  CartCounterAndImg,
-  Counter,
-} from "../Navbar/NavbarStyle";
 import { CurrContainerBlock, CurrBlock } from "./CurrenciesStyle";
 
 export class CurrencySelect extends Component {
@@ -26,6 +10,7 @@ export class CurrencySelect extends Component {
     this.state = {
       currenciesTypes: [],
     };
+    this.ref = React.createRef();
   }
 
   getCurrinciesTypes = () => {
@@ -48,16 +33,26 @@ export class CurrencySelect extends Component {
         this.setState({ currenciesTypes: currency });
       });
   };
+  handleClickOutside = (event) => {
+    if (this.ref.current && !this.ref.current.contains(event.target)) {
+      this.props.onClickOutside && this.props.onClickOutside();
+    }
+  };
   componentDidMount() {
     this.getCurrinciesTypes();
+    document.addEventListener("click", this.handleClickOutside, true);
+  }
+  componentWillUnmount() {
+    document.removeEventListener("click", this.handleClickOutside, true);
   }
   render() {
-    const { isCurrSelectOpened, currentCurrency, setCurrentCurrency } =
-      this.props;
+    const { isCurrSelectOpened, setCurrentCurrency } = this.props;
     const { currenciesTypes } = this.state;
+    if (!isCurrSelectOpened) return null;
+
     return (
       <>
-        <CurrContainerBlock>
+        <CurrContainerBlock ref={this.ref}>
           {currenciesTypes.map((curr, index) => (
             <CurrBlock onClick={() => setCurrentCurrency(curr)} key={index}>
               <span>{curr.symbol} </span>

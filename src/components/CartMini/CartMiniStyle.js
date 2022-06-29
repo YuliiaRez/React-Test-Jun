@@ -43,10 +43,10 @@ export const Attrs = styled.div`
 
 export const Attr = styled.div`
   display: flex;
-  width: 25px;
+  width: 30px;
   height: 25px;
   background-color: white;
-  font-size: 10px;
+  font-size: 8px;
   font-style: normal;
   font-weight: 400;
   justify-content: center;
@@ -54,7 +54,7 @@ export const Attr = styled.div`
   border: 1px solid #333;
   cursor: pointer;
   margin-right: 8px;
-
+  overflow: hidden;
   background: ${(props) => (props.chosen ? "black" : "white")};
   color: ${(props) => (props.chosen ? "white" : "black")};
 `;
@@ -90,7 +90,7 @@ export const ProductInfoInCart = styled.div`
   flex-direction: column;
   justify-content: space-between;
   align-items: start;
-  font-size: 14px;
+  font-size: 12px;
 `;
 
 export const CartContent = styled.div`
@@ -113,6 +113,7 @@ export const CartMiniBtn = styled.div`
   width: 135px;
   cursor: pointer;
   transition-duration: 0.2s;
+  color: black;
   &:hover {
     background-color: #333;
     color: white;

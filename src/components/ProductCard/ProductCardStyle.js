@@ -65,6 +65,7 @@ export const Price = styled.div`
   font-style: medium;
   font-size: 18px;
   cursor: pointer;
+  color: black;
 `;
 
 export const Img = styled.img`

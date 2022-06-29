@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import { client } from "../../client";
 import { gql } from "@apollo/client";
-import { v4 as uuidv4 } from "uuid";
+import { Outlet, Link } from "react-router-dom";
+
 import brandIcon from "../../images/BrandIcon.svg";
 import cart from "../../images/Cart.svg";
 import arrowImg from "../../images/ArrowCurrImg.svg";
@@ -22,6 +23,18 @@ import {
   CartCounterAndImg,
   Counter,
 } from "./NavbarStyle";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
+
+function withRouter(Component) {
+  function ComponentWithRouterProp(props) {
+    let location = useLocation();
+    let navigate = useNavigate();
+    let params = useParams();
+    return <Component {...props} router={{ location, navigate, params }} />;
+  }
+
+  return ComponentWithRouterProp;
+}
 
 export class Navbar extends Component {
   constructor(props) {
@@ -57,24 +70,30 @@ export class Navbar extends Component {
     this.setState({ isCartOpened: !isCartOpened });
   };
   closeCartMini = () => {
-    const {} = this.setState;
     this.setState({ isCartOpened: false });
+  };
+  closeCurrenciesSelect = () => {
+    this.setState({ isCurrSelectOpened: false });
   };
   componentDidMount() {
     this.getCategoryNames();
   }
-  componentDidMount(prevProps, prevState) {
-    if (prevProps !== this.props) {
-      this.getCategoryNames();
-    }
-  }
+  // componentDidUpdate(prevProps, prevState) {
+  //   if (prevProps !== this.props) {
+  //     this.getCategoryNames();
+  //   }
+  // }
   render() {
     const { categoryNames, isCartOpened, isCurrSelectOpened } = this.state;
-    const { setIsCurrSelectOpened, setIsCartOpened, closeCartMini } = this;
+    const {
+      setIsCurrSelectOpened,
+      setIsCartOpened,
+      closeCartMini,
+      closeCurrenciesSelect,
+    } = this;
     const {
       currentCurrency,
       setCurrentCurrency,
-      currentCategoryName,
       setCurrentCategoryName,
       orders,
       increaseCounter,
@@ -87,22 +106,24 @@ export class Navbar extends Component {
       isProductPageOpened,
       isCartPageOpened,
     } = this.props;
+
     return (
       <>
         <NavbarDiv>
           <Left>
             {categoryNames.map((name) => (
-              <Category
-                key={name}
-                chosen={name === currentCategoryName}
-                onClick={() => {
-                  closeCartPage();
-                  closeProductPage();
-                  setCurrentCategoryName(name);
-                }}
-              >
-                {name}
-              </Category>
+              <Link to={`${name}`} key={name}>
+                <Category
+                  chosen={name === this.props.router.params.category}
+                  onClick={() => {
+                    closeCartPage();
+                    closeProductPage();
+                    setCurrentCategoryName(name);
+                  }}
+                >
+                  {name}
+                </Category>
+              </Link>
             ))}
           </Left>
           <Center>
@@ -116,7 +137,12 @@ export class Navbar extends Component {
             />
           </Center>
           <Right>
-            <Currency onClick={() => setIsCurrSelectOpened()}>
+            <Currency
+              onClick={() => {
+                setIsCurrSelectOpened();
+                closeCartMini();
+              }}
+            >
               <CurrencySign>{currentCurrency.symbol}</CurrencySign>
               {isCurrSelectOpened ? (
                 <ArrowImgDown src={arrowImg} />
@@ -128,6 +154,9 @@ export class Navbar extends Component {
                   isCurrSelectOpened={isCurrSelectOpened}
                   currentCurrency={currentCurrency}
                   setCurrentCurrency={setCurrentCurrency}
+                  onClickOutside={() => {
+                    closeCurrenciesSelect();
+                  }}
                 />
               )}
             </Currency>
@@ -166,15 +195,20 @@ export class Navbar extends Component {
                   closeCartPage={closeCartPage}
                   closeProductPage={closeProductPage}
                   isProductPageOpened={isProductPageOpened}
-                  isCartPageOpened={isProductPageOpened}
+                  isCartPageOpened={isCartPageOpened}
+                  isCartOpened={isCartOpened}
+                  onClickOutside={() => {
+                    closeCartMini();
+                  }}
                 />
               </div>
             )}
           </Right>
         </NavbarDiv>
+        <Outlet />
       </>
     );
   }
 }
 
-export default Navbar;
+export default withRouter(Navbar);

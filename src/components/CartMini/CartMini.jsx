@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
 
 import {
@@ -8,7 +9,6 @@ import {
   BtnContainer,
   CartMiniBtn,
   CartHeader,
-  CartAttr,
   Price,
   CheckoutBtn,
   PriceContainer,
@@ -18,12 +18,27 @@ import OrderMini from "./OrderMini";
 export class CartMini extends Component {
   constructor(props) {
     super(props);
+    this.ref = React.createRef();
   }
+  handleClickOutside = (event) => {
+    if (this.ref.current && !this.ref.current.contains(event.target)) {
+      this.props.onClickOutside && this.props.onClickOutside();
+    }
+  };
   showCountOfItems = () => {
     return this.props.orders
       .map((item) => item.amount)
       .reduce((sum, current) => sum + current);
   };
+  componentDidMount() {
+    document.addEventListener("click", this.handleClickOutside, true);
+    document.body.style.overflow = "hidden";
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener("click", this.handleClickOutside, true);
+    document.body.style.overflow = "unset";
+  }
   render() {
     const {
       orders,
@@ -36,11 +51,15 @@ export class CartMini extends Component {
       closeCartMini,
       closeProductPage,
       closeCartPage,
+      isCartOpened,
     } = this.props;
+
+    // console.log("ref :>> ", this.ref);
+    if (!isCartOpened) return null;
     return (
       <>
         <Container>
-          <CartContainer>
+          <CartContainer ref={this.ref}>
             <CartHeader>{` My Bag, ${this.showCountOfItems()} items`}</CartHeader>
             <Orders>
               {orders.length > 0 &&
@@ -69,15 +88,17 @@ export class CartMini extends Component {
               </Price>
             </PriceContainer>
             <BtnContainer>
-              <CartMiniBtn
-                onClick={() => {
-                  setIsCardPageOpened();
-                  closeCartMini();
-                  closeProductPage();
-                }}
-              >
-                VIEW BAG
-              </CartMiniBtn>
+              <Link to="cart-page">
+                <CartMiniBtn
+                  onClick={() => {
+                    setIsCardPageOpened();
+                    closeCartMini();
+                    closeProductPage();
+                  }}
+                >
+                  VIEW BAG
+                </CartMiniBtn>
+              </Link>
 
               <CheckoutBtn
                 onClick={() => {

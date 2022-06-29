@@ -18,20 +18,12 @@ export class ProductCard extends Component {
   }
   openProductPage = (product) => {
     this.props.setIsProductPageOpened();
-    this.props.setProductPage(product);
+    // this.props.setProductPage(product);
   };
   render() {
-    const {
-      product,
-      currentCurrency,
-      currentCategoryName,
-      onAdd,
-      setIsProductPageOpened,
-      setProductPage,
-      setTotalPriceOfCart,
-    } = this.props;
+    const { product, currentCurrency, onAdd, setTotalPriceOfCart } = this.props;
 
-    const { inStock, name, id, gallery, prices } = product;
+    const { inStock, brand, name, id, gallery, prices } = product;
 
     const { openProductPage } = this;
 
@@ -48,43 +40,52 @@ export class ProductCard extends Component {
       );
     } else {
       stock = (
-        <OutOfStock
-          onClick={() => {
-            openProductPage(product);
-          }}
-        >
-          OUT OF STOCK
-        </OutOfStock>
+        <Link to={`${id}`}>
+          <OutOfStock
+            onClick={() => {
+              openProductPage(product);
+            }}
+          >
+            OUT OF STOCK
+          </OutOfStock>
+        </Link>
       );
     }
     return (
       <>
         <ProductContainer chosen={inStock}>
-          <Img
-            onClick={() => {
-              openProductPage(product);
-            }}
-            src={gallery[0]}
-          />
+          <Link to={`${id}`}>
+            <Img
+              onClick={() => {
+                openProductPage(product);
+              }}
+              src={gallery[0]}
+            />
+          </Link>
+
           {stock}
-          <Name
-            onClick={() => {
-              openProductPage(product);
-            }}
-          >
-            {name}
-          </Name>
-          <Price
-            onClick={() => {
-              openProductPage(product);
-            }}
-          >
-            {currentCurrency.symbol}
-            {prices.map((it) => {
-              if (it.currency.symbol === currentCurrency.symbol)
-                return it.amount;
-            })}
-          </Price>
+          <Link to={`${id}`}>
+            <Name
+              onClick={() => {
+                openProductPage(product);
+              }}
+            >
+              {brand}
+              <br />
+              {name}
+            </Name>
+            <Price
+              onClick={() => {
+                openProductPage(product);
+              }}
+            >
+              {currentCurrency.symbol}
+              {prices.map((it) => {
+                if (it.currency.symbol === currentCurrency.symbol)
+                  return it.amount;
+              })}
+            </Price>
+          </Link>
         </ProductContainer>
       </>
     );

@@ -17,16 +17,16 @@ export const Container = styled.div`
   } ;
 `;
 
-export const CartIcon = styled.img`
-  opacity: 0;
-  transition-duration: 0.2s;
-  position: absolute;
-  cursor: pointer;
-  left: auto;
-  right: 20px;
-  z-index: 10;
-  margin-top: -54px;
-`;
+// export const CartIcon = styled.img`
+//   opacity: 0;
+//   transition-duration: 0.2s;
+//   position: absolute;
+//   cursor: pointer;
+//   left: auto;
+//   right: 20px;
+//   z-index: 10;
+//   margin-top: -54px;
+// `;
 
 export const ProductContainer = styled.div`
   position: relative;
@@ -39,10 +39,7 @@ export const ProductContainer = styled.div`
   &:hover {
     -webkit-box-shadow: 0px 4px 35px 0px rgba(168, 172, 176, 0.19);
     box-shadow: 0px 4px 35px 0px rgba(168, 172, 176, 0.19);
-    ${CartIcon} {
-      opacity: 1;
-    }
-  }
+  
 `;
 
 export const Name = styled.div`
@@ -91,4 +88,20 @@ export const OutOfStock = styled.div`
   line-height: 38px;
   letter-spacing: 0px;
   text-align: left;
+`;
+export const CategoryContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;
+
+export const CategoryName = styled.h2`
+  cursor: pointer;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 42px;
+  line-height: 160%;
+  display: flex;
+  align-items: center;
+  color: #1d1f22;
+  text-transform: uppercase;
 `;
